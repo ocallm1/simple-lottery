@@ -5,6 +5,7 @@ import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +32,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return this.simpleLotteryTickets;
     }
 
-    @Override
     public SimpleLotteryTicketLine createRandomNumbersForLineOfThree() {
         final int numberOne = this.randomGeneratorService.generateRandomValue();
         final int numberTwo = this.randomGeneratorService.generateRandomValue();
@@ -40,7 +40,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return new SimpleLotteryTicketLine(numberOne, numberTwo, numberThree);
     }
 
-    @Override
     public SimpleLotteryTicket createTicket(final int n)
     {
         final List<SimpleLotteryTicketLine> simpleLotteryTicketLines = new ArrayList<>();
@@ -60,7 +59,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return simpleLotteryTicket;
     }
 
-    @Override
     public List<SimpleLotteryTicket> getListOfTickets() throws SimpleLotteryServiceException {
         if (getSimpleLotteryTickets()== null) {
             final String errorMsg = "Could not retrieve ticket(s)";
@@ -72,7 +70,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return getSimpleLotteryTickets();
     }
 
-    @Override
     public SimpleLotteryTicket getTicket(int ticketNumber) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = null;
@@ -88,7 +85,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return simpleLotteryTicket;
     }
 
-    @Override
     public SimpleLotteryTicket amendTicketLines(
             int ticketNumber, int additionalLines) throws SimpleLotteryServiceException
     {
@@ -120,7 +116,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return simpleLotteryTicket;
     }
 
-    @Override
     public SimpleLotteryTicket getTicketStatus(int ticketNumber) throws SimpleLotteryServiceException
     {
         // mark ticket as status checked
