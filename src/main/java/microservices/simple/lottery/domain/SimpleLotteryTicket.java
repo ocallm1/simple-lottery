@@ -11,7 +11,10 @@ public class SimpleLotteryTicket
     @JsonProperty
     private List<SimpleLotteryTicketLine> lines;
 
-    public SimpleLotteryTicket(final List<SimpleLotteryTicketLine> lines)
+    @JsonProperty
+    private List<Error> errors;
+
+    public SimpleLotteryTicket(List<SimpleLotteryTicketLine> lines)
     {
         this.lines = lines;
     }
@@ -22,10 +25,10 @@ public class SimpleLotteryTicket
 
     public Boolean getStatusChecked()
     {
-        return statusChecked;
+        return this.statusChecked;
     }
 
-    public void setStatusChecked(final Boolean statusChecked)
+    public void setStatusChecked(Boolean statusChecked)
     {
         this.statusChecked = statusChecked;
     }
@@ -35,10 +38,10 @@ public class SimpleLotteryTicket
 
     public List<SimpleLotteryTicketLine> getLines()
     {
-        return lines;
+        return this.lines;
     }
 
-    public void setLines(final List<SimpleLotteryTicketLine> lines)
+    public void setLines(List<SimpleLotteryTicketLine> lines)
     {
         this.lines = lines;
     }

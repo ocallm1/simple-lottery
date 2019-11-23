@@ -15,14 +15,14 @@ public class RandomGeneratorServiceImplTest {
 
     @Before
     public void setUp() {
-        randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
+        this.randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
     }
 
     @Test
     public void generateRandomFactorIsBetweenExpectedLimits() throws Exception {
         // when a good sample of randomly generated numbers is generated
-        List<Integer> randomNumbers = IntStream.range(0, 3)
-                .map(i -> randomGeneratorServiceImpl.generateRandomValue())
+        final List<Integer> randomNumbers = IntStream.range(0, 3)
+                .map(i -> this.randomGeneratorServiceImpl.generateRandomValue())
                 .boxed().collect(Collectors.toList());
 
         // then all of them should be between 0 and 2

@@ -13,55 +13,54 @@ class ApiError
 {
     private HttpStatus        status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime     timestamp;
     private String            message;
     private String            debugMessage;
     private List<ApiSubError> subErrors;
 
     private ApiError()
     {
-        timestamp = LocalDateTime.now();
+        final LocalDateTime timestamp = LocalDateTime.now();
     }
 
-    ApiError(HttpStatus status)
+    ApiError(final HttpStatus status)
     {
         this();
         this.status = status;
     }
 
-    ApiError(HttpStatus status, Throwable ex)
+    ApiError(final HttpStatus status, final Throwable ex)
     {
         this();
         this.status = status;
-        this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
+        message = "Unexpected error";
+        debugMessage = ex.getLocalizedMessage();
     }
 
-    ApiError(HttpStatus status, String message, Throwable ex)
+    ApiError(final HttpStatus status, final String message, final Throwable ex)
     {
         this();
         this.status = status;
         this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        debugMessage = ex.getLocalizedMessage();
 
     }
 
     public String getMessage()
     {
-        return message;
+        return this.message;
     }
 
-    public void setMessage(final String message)
+    public void setMessage(String message)
     {
         this.message = message;
     }
 
     public HttpStatus getStatus()
     {
-        return status;
+        return this.status;
     }
 
-    public void setStatus(final HttpStatus status)
+    public void setStatus(HttpStatus status)
     {
         this.status = status;
     }
@@ -75,12 +74,12 @@ abstract class ApiSubError {
     @EqualsAndHashCode(callSuper = false)
     @AllArgsConstructor
     class ApiValidationError extends ApiSubError {
-        private String object;
-        private String field;
-        private Object rejectedValue;
-        private String message;
+        private final String object;
+        private       String field;
+        private       Object rejectedValue;
+        private final String message;
 
-        ApiValidationError(String object, String message) {
+        ApiValidationError(final String object, final String message) {
             this.object = object;
             this.message = message;
         }

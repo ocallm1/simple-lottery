@@ -12,11 +12,11 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
 
     // Both factors
     @JsonProperty
-    private int numberOne;
+    private final int numberOne;
     @JsonProperty
-    private int numberTwo;
+    private final int numberTwo;
     @JsonProperty
-    private int numberThree;
+    private final int numberThree;
 
     @JsonProperty
     private int outcome;
@@ -25,7 +25,7 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     @JsonProperty
     private int result;
 
-    public SimpleLotteryTicketLine(int numberOne, int numberTwo, int numberThree) {
+    public SimpleLotteryTicketLine(final int numberOne, final int numberTwo, final int numberThree) {
         this.numberOne = numberOne;
         this.numberTwo = numberTwo;
         this.numberThree = numberThree;
@@ -33,28 +33,28 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     }
 
     public int getNumberOne() {
-        return numberOne;
+        return this.numberOne;
     }
 
     public int getNumberTwo() {
-        return numberTwo;
+        return this.numberTwo;
     }
 
     public int getNumberThree() {
-        return numberThree;
+        return this.numberThree;
     }
 
     public int getResult() {
-        return result;
+        return this.result;
     }
 
 
     public int getOutcome()
     {
-        return outcome;
+        return this.outcome;
     }
 
-    public void setOutcome(final int outcome)
+    public void setOutcome(int outcome)
     {
         this.outcome = outcome;
     }
@@ -62,18 +62,18 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     @Override
     public String toString() {
         return "SimpleLotteryTicketLine{" +
-                "numberOne=" + numberOne +
-                ", numberTwo=" + numberTwo +
-                ", result(A*B)=" + result +
+                "numberOne=" + this.numberOne +
+                ", numberTwo=" + this.numberTwo +
+                ", result(A*B)=" + this.result +
                 '}';
     }
 
     @Override
-    public int compareTo(final SimpleLotteryTicketLine compareTicketLine)
+    public int compareTo(SimpleLotteryTicketLine compareTicketLine)
     {
-        int comparePosition = ((SimpleLotteryTicketLine) compareTicketLine).getOutcome();
+        final int comparePosition = compareTicketLine.getOutcome();
 
         //ascending order
-        return this.outcome - comparePosition;
+        return outcome - comparePosition;
     }
 }

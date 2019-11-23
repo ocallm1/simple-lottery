@@ -7,10 +7,10 @@ import java.util.Random;
 class RandomGeneratorServiceImpl implements RandomGeneratorService {
 
     // Upper bound exclusive
-    final static int MAXIMUM_NUMBER = 3;
+    static final int MAXIMUM_NUMBER = 3;
 
     @Override
     public int generateRandomValue() {
-        return new Random().nextInt(MAXIMUM_NUMBER);
+        return new Random().nextInt(RandomGeneratorServiceImpl.MAXIMUM_NUMBER);
     }
 }

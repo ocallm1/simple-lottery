@@ -23,11 +23,11 @@ import java.util.List;
 @RequestMapping("/lottery")
 public class SimpleLotteryController
 {
-    private SimpleLotteryService simpleLotteryService;
-    private final static Logger logger = Logger.getLogger(SimpleLotteryController.class);
+    private final        SimpleLotteryService simpleLotteryService;
+    private static final Logger               logger = Logger.getLogger(SimpleLotteryController.class);
 
     @Autowired
-    public SimpleLotteryController(SimpleLotteryService simpleLotteryService)
+    public SimpleLotteryController(final SimpleLotteryService simpleLotteryService)
     {
         this.simpleLotteryService = simpleLotteryService;
     }
@@ -49,7 +49,7 @@ public class SimpleLotteryController
     public ResponseEntity<?> createTicket()
     {
         // lets just always create a ticket with 10 lines
-        final SimpleLotteryTicket simpleLotteryServiceTicket = simpleLotteryService.createTicket(10);
+        SimpleLotteryTicket simpleLotteryServiceTicket = this.simpleLotteryService.createTicket(10);
 
         return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.CREATED);
     }
@@ -65,11 +65,11 @@ public class SimpleLotteryController
         List<SimpleLotteryTicket> simpleLotteryServiceTickets = null;
         try
         {
-            simpleLotteryServiceTickets = simpleLotteryService.getListOfTickets();
+            simpleLotteryServiceTickets = this.simpleLotteryService.getListOfTickets();
         }
-        catch (SimpleLotteryServiceException e)
+        catch (final SimpleLotteryServiceException e)
         {
-            logger.error("could not retrieve ticket(s)");
+            SimpleLotteryController.logger.error("could not retrieve ticket(s)");
             throw new TicketNotFoundException();
         }
 
@@ -83,16 +83,16 @@ public class SimpleLotteryController
      */
     @GetMapping("/ticket/{id}")
     @ResponseBody
-    public ResponseEntity<?> getTicket(@PathVariable int id)
+    public ResponseEntity<?> getTicket(@PathVariable final int id)
     {
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
-            simpleLotteryServiceTicket = simpleLotteryService.getTicket(id);
+            simpleLotteryServiceTicket = this.simpleLotteryService.getTicket(id);
         }
-        catch (SimpleLotteryServiceException e)
+        catch (final SimpleLotteryServiceException e)
         {
-            logger.error("could not retrieve ticket");
+            SimpleLotteryController.logger.error("could not retrieve ticket");
             throw new TicketNotFoundException(id);
         }
 
@@ -113,17 +113,17 @@ public class SimpleLotteryController
      */
     @PutMapping("/ticket/{id}")
     @ResponseBody
-    public ResponseEntity<?> amendTicket(@PathVariable int id)
+    public ResponseEntity<?> amendTicket(@PathVariable final int id)
     {
         // lets just always update a chosen ticket with 6 lines
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
-            simpleLotteryServiceTicket = simpleLotteryService.amendTicketLines(id, 6);
+            simpleLotteryServiceTicket = this.simpleLotteryService.amendTicketLines(id, 6);
         }
-        catch (SimpleLotteryServiceException e)
+        catch (final SimpleLotteryServiceException e)
         {
-            logger.error("could not amend ticket: " + id);;
+            SimpleLotteryController.logger.error("could not amend ticket: " + id);
             throw new AmendTicketException (id);
         }
 
@@ -147,14 +147,14 @@ public class SimpleLotteryController
      */
     @PutMapping("/status/{id}")
     @ResponseBody
-    public ResponseEntity<?> status(@PathVariable int id)
+    public ResponseEntity<?> status(@PathVariable final int id)
     {
          SimpleLotteryTicket simpleLotteryServiceTicket = null;
          try
          {
-             simpleLotteryServiceTicket = simpleLotteryService.getTicketStatus(id);
+             simpleLotteryServiceTicket = this.simpleLotteryService.getTicketStatus(id);
          }
-         catch (SimpleLotteryServiceException sLSE) {
+         catch (final SimpleLotteryServiceException sLSE) {
 
          }
 

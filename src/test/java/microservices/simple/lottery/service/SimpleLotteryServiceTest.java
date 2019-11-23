@@ -22,7 +22,7 @@ public class SimpleLotteryServiceTest {
     @Test
     public void createRandomValuesTest() {
         // given (our mocked Random Generator service will return first 2, then 1)
-        given(randomGeneratorService.generateRandomValue()).willReturn(2, 1);
+        given(this.randomGeneratorService.generateRandomValue()).willReturn(2, 1);
 
         // when
 

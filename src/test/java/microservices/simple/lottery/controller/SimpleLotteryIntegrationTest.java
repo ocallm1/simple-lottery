@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 public class SimpleLotteryIntegrationTest
 {
     @LocalServerPort
-    private int port = 8080;
+    private final int port = 8080;
 
     TestRestTemplate restTemplate = new TestRestTemplate();
 
@@ -32,15 +32,15 @@ public class SimpleLotteryIntegrationTest
     @Ignore("Test is ignored as a demonstration")
     @Test
     public void testCreateTicket() {
-        List<SimpleLotteryTicketLine> lines = new ArrayList<>();
-        SimpleLotteryTicketLine simpleLotteryTicketLine = new SimpleLotteryTicketLine(1,2, 0);
+        final List<SimpleLotteryTicketLine> lines = new ArrayList<>();
+        final SimpleLotteryTicketLine simpleLotteryTicketLine = new SimpleLotteryTicketLine(1,2, 0);
         lines.add(simpleLotteryTicketLine);
 
-        SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket(lines);
+        final SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket(lines);
         simpleLotteryTicket.setStatusChecked(false);
 
-        ResponseEntity<SimpleLotteryTicket> responseEntity = this.restTemplate
-                .postForEntity("http://localhost:" + port + "/lottery/ticket", null, SimpleLotteryTicket.class);
+        final ResponseEntity<SimpleLotteryTicket> responseEntity = restTemplate
+                .postForEntity("http://localhost:" + this.port + "/lottery/ticket", null, SimpleLotteryTicket.class);
         assertEquals(201, responseEntity.getStatusCodeValue());
     }
 
@@ -48,26 +48,27 @@ public class SimpleLotteryIntegrationTest
     @Test
     public void testRetrieveTicket() {
 
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        final HttpEntity<String> entity = new HttpEntity<String>(null, this.headers);
 
-        ResponseEntity<SimpleLotteryTicket> response
-                = restTemplate.getForEntity("http://localhost:8080/lottery/ticket/1", SimpleLotteryTicket.class);
+        final ResponseEntity<SimpleLotteryTicket> response
+                = this.restTemplate.getForEntity("http://localhost:8080/lottery/ticket/1", SimpleLotteryTicket.class);
        assertEquals(201, response.getStatusCodeValue());
     }
 
-    private String createURLWithPort(String uri) {
-        return "http://localhost:" + port + uri;
+    private String createURLWithPort(final String uri) {
+        return "http://localhost:" + this.port + uri;
     }
 
     @Ignore("Test is ignored as a demonstration")
     @Test
     public void testGetAllTicketss() {
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<SimpleLotteryTicket> entity = new HttpEntity<SimpleLotteryTicket>(null, headers);
+        final HttpHeaders headers = new HttpHeaders();
+        final HttpEntity<SimpleLotteryTicket> entity = new HttpEntity<SimpleLotteryTicket>(null, headers);
 //        ResponseEntity<SimpleLotteryTicket> response = restTemplate.exchange("http://localhost:8080/lottery/ticket/",
 //                HttpMethod.GET, entity, SimpleLotteryTicket.class);
 
-        SimpleLotteryTicket simpleLotteryTicket = restTemplate.getForObject("http://localhost:8080/lottery/ticket/0", SimpleLotteryTicket.class);
+        final SimpleLotteryTicket simpleLotteryTicket = this.restTemplate
+                .getForObject("http://localhost:8080/lottery/ticket/0", SimpleLotteryTicket.class);
         System.out.println(simpleLotteryTicket.getStatusChecked());
 
      //   assertNotNull(response.getBody());
