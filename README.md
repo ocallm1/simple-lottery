@@ -1,5 +1,5 @@
 ###############################################################################
-# Author: mailto:@mark.ocallaghan1@gmail.com
+# @Author: mailto:@mark.ocallaghan1@gmail.com
 
 # Hello and welcome to the Simple Lottery App
 ###############################################################################

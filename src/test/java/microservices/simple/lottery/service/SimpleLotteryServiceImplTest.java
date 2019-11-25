@@ -53,13 +53,7 @@ public class SimpleLotteryServiceImplTest
         final SimpleLotteryTicket simpleLotteryTicket = simpleLotteryService.createTicket(5);
         final List<SimpleLotteryTicketLine> simpleLotteryTicketLine = simpleLotteryTicket.getLines();
 
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberOne() {}" + simpleLotteryTicketLine.get(0).getNumberOne());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberTwo() {}" + simpleLotteryTicketLine.get(0).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberThree() {}" + simpleLotteryTicketLine.get(0).getNumberThree());
-
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberOne() {}" + simpleLotteryTicketLine.get(4).getNumberOne());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberTwo() {}" + simpleLotteryTicketLine.get(4).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberThree() {}" + simpleLotteryTicketLine.get(4).getNumberThree());
+        printTicketLines(simpleLotteryTicketLine, 4);
 
         Assert.assertTrue(simpleLotteryTicket.getLines().size() > 4);
         Assert.assertTrue(simpleLotteryTicketLine.get(4).getNumberThree() >= 0);
@@ -69,13 +63,7 @@ public class SimpleLotteryServiceImplTest
         final SimpleLotteryTicket simpleLotteryTicketTwo = simpleLotteryService.createTicket(3);
         final List<SimpleLotteryTicketLine> simpleLotteryTicketTwoLines = simpleLotteryTicketTwo.getLines();
 
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberOne() {}" + simpleLotteryTicketTwoLines.get(0).getNumberOne());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberTwo() {}" + simpleLotteryTicketTwoLines.get(0).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(0).getNumberThree() {}" + simpleLotteryTicketTwoLines.get(0).getNumberThree());
-
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberOne() {}" + simpleLotteryTicketTwoLines.get(2).getNumberOne());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberTwo() {}" + simpleLotteryTicketTwoLines.get(2).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketLine.get(4).getNumberThree() {}" + simpleLotteryTicketTwoLines.get(2).getNumberThree());
+        printTicketLines(simpleLotteryTicketTwoLines, 2);
 
         Assert.assertTrue(simpleLotteryTicketTwo.getLines().size() > 2);
         Assert.assertTrue(simpleLotteryTicketTwoLines.get(2).getNumberThree() >= 0);
@@ -98,7 +86,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            e.printStackTrace();
+            logger.error("Proglem getting ticket status"+e);
         }
         for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketOne.getLines())
         {
@@ -115,7 +103,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            e.printStackTrace();
+            logger.error("Proglem getting ticket status"+e);
         }
         for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketTwo.getLines())
         {
@@ -144,7 +132,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            e.printStackTrace();
+            logger.error("Proglem amending ticket"+e);
         }
         Assert.assertEquals(simpleLotteryTicket.getLines().size(), 6);
 
@@ -155,7 +143,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            e.printStackTrace();
+            logger.error("Proglem getting ticket status"+e);
         }
 
         // now try amending the ticket it should not be possible.
@@ -166,9 +154,27 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            e.printStackTrace();
+            logger.error("Proglem amending ticket"+e);
         }
         Assert.assertEquals(simpleLotteryTicketSame.getLines().size(), 6);
+    }
+
+
+    private void printTicketLines(final List<SimpleLotteryTicketLine> simpleLotteryTicketLine, final int i)
+    {
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(0).getNumberOne() {}" + simpleLotteryTicketLine.get(0).getNumberOne());
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(0).getNumberTwo() {}" + simpleLotteryTicketLine.get(0).getNumberTwo());
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(0).getNumberThree() {}" + simpleLotteryTicketLine.get(0).getNumberThree());
+
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(4).getNumberOne() {}" + simpleLotteryTicketLine.get(i).getNumberOne());
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(4).getNumberTwo() {}" + simpleLotteryTicketLine.get(i).getNumberTwo());
+        SimpleLotteryServiceImplTest.logger
+                .info("simpleLotteryTicketLine.get(4).getNumberThree() {}" + simpleLotteryTicketLine.get(i).getNumberThree());
     }
 
 }

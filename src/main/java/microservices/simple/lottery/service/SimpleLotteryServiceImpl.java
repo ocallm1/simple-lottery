@@ -2,6 +2,7 @@ package microservices.simple.lottery.service;
 
 import microservices.simple.lottery.domain.SimpleLotteryTicket;
 import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
+import microservices.simple.lottery.service.Error.ServiceError;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         this.randomGeneratorService = randomGeneratorService;
     }
 
-    public List<SimpleLotteryTicket> getSimpleLotteryTickets()
+    private List<SimpleLotteryTicket> getSimpleLotteryTickets()
     {
         return this.simpleLotteryTickets;
     }
@@ -60,10 +61,17 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     }
 
     public List<SimpleLotteryTicket> getListOfTickets() throws SimpleLotteryServiceException {
-        if (getSimpleLotteryTickets()== null) {
+        if (null == getSimpleLotteryTickets() || !(getSimpleLotteryTickets().size()>0)) {
             final String errorMsg = "Could not retrieve ticket(s)";
-
             SimpleLotteryServiceImpl.logger.warn(errorMsg);
+
+            ServiceError error = new ServiceError(errorMsg);
+            SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+            List<ServiceError> serviceError = new ArrayList<>();
+            serviceError.add(error);
+
+            simpleLotterTicket.setErrors(serviceError);
+
             throw new SimpleLotteryServiceException(errorMsg);
         }
 

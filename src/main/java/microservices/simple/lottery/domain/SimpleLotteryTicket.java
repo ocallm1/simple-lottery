@@ -2,6 +2,7 @@ package microservices.simple.lottery.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import microservices.simple.lottery.service.Error.ServiceError;
 
 import java.util.List;
 
@@ -11,8 +12,18 @@ public class SimpleLotteryTicket
     @JsonProperty
     private List<SimpleLotteryTicketLine> lines;
 
+    public List<ServiceError> getErrors()
+    {
+        return this.errors;
+    }
+
+    public void setErrors(List<ServiceError> errors)
+    {
+        this.errors = errors;
+    }
+
     @JsonProperty
-    private List<Error> errors;
+    private List<ServiceError> errors;
 
     public SimpleLotteryTicket(List<SimpleLotteryTicketLine> lines)
     {
