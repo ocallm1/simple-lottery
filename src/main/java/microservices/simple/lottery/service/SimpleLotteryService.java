@@ -1,7 +1,7 @@
 package microservices.simple.lottery.service;
 
-import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 import microservices.simple.lottery.domain.SimpleLotteryTicket;
+import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public interface SimpleLotteryService
     /**
      * Retrieve status of ticket
      * The lines will be sorted into outcomes before being returned
-     *
+     * <p>
      * Outcomes:
      * if the sum of the values on a line is 2, the result for that line is 10.
      * Otherwise if they are all the same, the result is 5.
@@ -66,6 +66,5 @@ public interface SimpleLotteryService
      * @return SimpleLotteryTicket
      */
     SimpleLotteryTicket getTicketStatus(int ticketNumber) throws SimpleLotteryServiceException;
-
 
 }

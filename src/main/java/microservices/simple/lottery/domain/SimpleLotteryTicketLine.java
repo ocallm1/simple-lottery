@@ -25,29 +25,33 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     @JsonProperty
     private int result;
 
-    public SimpleLotteryTicketLine(final int numberOne, final int numberTwo, final int numberThree) {
+    public SimpleLotteryTicketLine(final int numberOne, final int numberTwo, final int numberThree)
+    {
         this.numberOne = numberOne;
         this.numberTwo = numberTwo;
         this.numberThree = numberThree;
 
     }
 
-    public int getNumberOne() {
+    public int getNumberOne()
+    {
         return this.numberOne;
     }
 
-    public int getNumberTwo() {
+    public int getNumberTwo()
+    {
         return this.numberTwo;
     }
 
-    public int getNumberThree() {
+    public int getNumberThree()
+    {
         return this.numberThree;
     }
 
-    public int getResult() {
+    public int getResult()
+    {
         return this.result;
     }
-
 
     public int getOutcome()
     {
@@ -60,12 +64,10 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     }
 
     @Override
-    public String toString() {
-        return "SimpleLotteryTicketLine{" +
-                "numberOne=" + this.numberOne +
-                ", numberTwo=" + this.numberTwo +
-                ", result(A*B)=" + this.result +
-                '}';
+    public String toString()
+    {
+        return "SimpleLotteryTicketLine{" + "numberOne=" + this.numberOne + ", numberTwo=" + this.numberTwo + ", result(A*B)=" + this.result
+                + '}';
     }
 
     @Override

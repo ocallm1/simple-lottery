@@ -21,9 +21,9 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     // Note tickets stored in memory would be database backed in a real system
     private final List<SimpleLotteryTicket> simpleLotteryTickets = new ArrayList<>();
 
-
     @Autowired
-    public SimpleLotteryServiceImpl(final RandomGeneratorService randomGeneratorService) {
+    public SimpleLotteryServiceImpl(final RandomGeneratorService randomGeneratorService)
+    {
 
         this.randomGeneratorService = randomGeneratorService;
     }
@@ -33,7 +33,8 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return this.simpleLotteryTickets;
     }
 
-    public SimpleLotteryTicketLine createRandomNumbersForLineOfThree() {
+    public SimpleLotteryTicketLine createRandomNumbersForLineOfThree()
+    {
         final int numberOne = this.randomGeneratorService.generateRandomValue();
         final int numberTwo = this.randomGeneratorService.generateRandomValue();
         final int numberThree = this.randomGeneratorService.generateRandomValue();
@@ -45,7 +46,7 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     {
         final List<SimpleLotteryTicketLine> simpleLotteryTicketLines = new ArrayList<>();
         SimpleLotteryTicket simpleLotteryTicket = null;
-        for(int i = 1; i<=n; i++)
+        for (int i = 1; i <= n; i++)
         {
             simpleLotteryTicket = new SimpleLotteryTicket();
             final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
@@ -60,8 +61,10 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return simpleLotteryTicket;
     }
 
-    public List<SimpleLotteryTicket> getListOfTickets() throws SimpleLotteryServiceException {
-        if (null == getSimpleLotteryTickets() || !(getSimpleLotteryTickets().size()>0)) {
+    public List<SimpleLotteryTicket> getListOfTickets() throws SimpleLotteryServiceException
+    {
+        if (null == getSimpleLotteryTickets() || !(getSimpleLotteryTickets().size() > 0))
+        {
             final String errorMsg = "Could not retrieve ticket(s)";
             SimpleLotteryServiceImpl.logger.warn(errorMsg);
 
@@ -81,39 +84,43 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     public SimpleLotteryTicket getTicket(int ticketNumber) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = null;
-        try {
-             simpleLotteryTicket = this.simpleLotteryTickets.get(ticketNumber);
+        try
+        {
+            simpleLotteryTicket = this.simpleLotteryTickets.get(ticketNumber);
         }
-        catch(final Exception ex) {
+        catch (final Exception ex)
+        {
             final String errorMsg = "Could not retrieve ticket";
 
-            SimpleLotteryServiceImpl.logger.warn(errorMsg +" for ticket: "+ticketNumber);
+            SimpleLotteryServiceImpl.logger.warn(errorMsg + " for ticket: " + ticketNumber);
             throw new SimpleLotteryServiceException(errorMsg);
         }
         return simpleLotteryTicket;
     }
 
-    public SimpleLotteryTicket amendTicketLines(
-            int ticketNumber, int additionalLines) throws SimpleLotteryServiceException
+    public SimpleLotteryTicket amendTicketLines(int ticketNumber, int additionalLines) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = simpleLotteryTicket = this.getTicket(ticketNumber);
 
         // add new lines to ticket
-        try{
-            for(int i=0;i<additionalLines;i++) {
+        try
+        {
+            for (int i = 0; i < additionalLines; i++)
+            {
                 final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
 
-                if(simpleLotteryTicket.getStatusChecked().equals(Boolean.FALSE))
+                if (simpleLotteryTicket.getStatusChecked().equals(Boolean.FALSE))
                 {
                     simpleLotteryTicket.getLines().add(simpleLotteryTicketLine);
                 }
-                else {
+                else
+                {
                     SimpleLotteryServiceImpl.logger.debug("Ticket locked for Status check!");
                     return simpleLotteryTicket;
                 }
             }
         }
-        catch(final Exception ex)
+        catch (final Exception ex)
         {
             final String errorMsg = "Could add line to ticket";
 
@@ -131,7 +138,8 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
 
         // sort lines into outcomes
         final List<SimpleLotteryTicketLine> simpleLotteryTicketLines = simpleLotteryTicket.getLines();
-        for (final SimpleLotteryTicketLine simpleLotteryTicketLine : simpleLotteryTicketLines) {
+        for (final SimpleLotteryTicketLine simpleLotteryTicketLine : simpleLotteryTicketLines)
+        {
             final int lineValue = this.checkLineValues(simpleLotteryTicketLine);
             // set the tickets position
             simpleLotteryTicketLine.setOutcome(lineValue);
@@ -158,16 +166,20 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
 
         final int sumLineValues = num1 + num2 + num3;
 
-        if(sumLineValues == 2) {
+        if (sumLineValues == 2)
+        {
             return 10;
         }
-        else if ((num1 == num2) && (num2 == num3)) {
+        else if ((num1 == num2) && (num2 == num3))
+        {
             return 5;
         }
-        else if ((num1 != num2) && (num1 != num3)) {
+        else if ((num1 != num2) && (num1 != num3))
+        {
             return 1;
         }
-        else {
+        else
+        {
             return 0;
         }
     }

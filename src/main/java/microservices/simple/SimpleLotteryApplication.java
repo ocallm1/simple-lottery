@@ -8,7 +8,8 @@ import static org.springframework.boot.SpringApplication.run;
 public class SimpleLotteryApplication
 {
 
-	public static void main(final String[] args) {
-		run(SimpleLotteryApplication.class, args);
-	}
+    public static void main(final String[] args)
+    {
+        run(SimpleLotteryApplication.class, args);
+    }
 }

@@ -16,16 +16,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
 
     //other exception handlers
     @ExceptionHandler(AmendTicketException.class)
-    protected ResponseEntity<Object> handleAmendEntity(
-            final AmendTicketException ex) {
+    protected ResponseEntity<Object> handleAmendEntity(final AmendTicketException ex)
+    {
         final ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return this.buildResponseEntity(apiError);
     }
 
     @ExceptionHandler(TicketNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
-            final TicketNotFoundException ex) {
+    protected ResponseEntity<Object> handleEntityNotFound(final TicketNotFoundException ex)
+    {
+        final ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return this.buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(CheckTicketException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(final CheckTicketException ex)
+    {
         final ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return this.buildResponseEntity(apiError);

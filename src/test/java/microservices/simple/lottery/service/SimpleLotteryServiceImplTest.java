@@ -1,7 +1,7 @@
 package microservices.simple.lottery.service;
 
-import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 import microservices.simple.lottery.domain.SimpleLotteryTicket;
+import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
@@ -86,7 +86,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status"+e);
+            logger.error("Proglem getting ticket status" + e);
         }
         for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketOne.getLines())
         {
@@ -103,7 +103,7 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status"+e);
+            logger.error("Proglem getting ticket status" + e);
         }
         for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketTwo.getLines())
         {
@@ -128,11 +128,11 @@ public class SimpleLotteryServiceImplTest
         SimpleLotteryTicket simpleLotteryTicket = null;
         try
         {
-            simpleLotteryTicket = simpleLotteryService.amendTicketLines(0,  3);
+            simpleLotteryTicket = simpleLotteryService.amendTicketLines(0, 3);
         }
         catch (final SimpleLotteryServiceException e)
         {
-            logger.error("Proglem amending ticket"+e);
+            logger.error("Proglem amending ticket" + e);
         }
         Assert.assertEquals(simpleLotteryTicket.getLines().size(), 6);
 
@@ -143,22 +143,21 @@ public class SimpleLotteryServiceImplTest
         }
         catch (final SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status"+e);
+            logger.error("Proglem getting ticket status" + e);
         }
 
         // now try amending the ticket it should not be possible.
         SimpleLotteryTicket simpleLotteryTicketSame = null;
         try
         {
-            simpleLotteryTicketSame = simpleLotteryService.amendTicketLines(0,  3);
+            simpleLotteryTicketSame = simpleLotteryService.amendTicketLines(0, 3);
         }
         catch (final SimpleLotteryServiceException e)
         {
-            logger.error("Proglem amending ticket"+e);
+            logger.error("Proglem amending ticket" + e);
         }
         Assert.assertEquals(simpleLotteryTicketSame.getLines().size(), 6);
     }
-
 
     private void printTicketLines(final List<SimpleLotteryTicketLine> simpleLotteryTicketLine, final int i)
     {

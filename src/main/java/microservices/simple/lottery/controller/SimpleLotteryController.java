@@ -1,6 +1,7 @@
 package microservices.simple.lottery.controller;
 
 import microservices.simple.lottery.controller.error.AmendTicketException;
+import microservices.simple.lottery.controller.error.CheckTicketException;
 import microservices.simple.lottery.controller.error.TicketNotFoundException;
 import microservices.simple.lottery.domain.SimpleLotteryTicket;
 import microservices.simple.lottery.service.SimpleLotteryService;
@@ -23,8 +24,8 @@ import java.util.List;
 @RequestMapping("/lottery")
 public class SimpleLotteryController
 {
-    private final        SimpleLotteryService simpleLotteryService;
     private static final Logger               logger = Logger.getLogger(SimpleLotteryController.class);
+    private final        SimpleLotteryService simpleLotteryService;
 
     @Autowired
     public SimpleLotteryController(final SimpleLotteryService simpleLotteryService)
@@ -34,12 +35,12 @@ public class SimpleLotteryController
 
     /**
      * Create an in memory ticket with 10 lines of data
-     *
+     * <p>
      * Each line is made up of three rows
      * NOTE: A param could be used to pass in a variab
      * le number of rows but rows can be added via
      * amendTicket.
-     *
+     * <p>
      * Note also no body of HTTP Post is required
      *
      * @return ResponseEntity containing new ticket, not sorted yet and status of 201 if created ok.
@@ -55,7 +56,6 @@ public class SimpleLotteryController
     }
 
     /**
-     *
      * @return ResponseEntity - A list of the created tickets with their rows and a status of 200 if the request succeeds.
      */
     @GetMapping("/ticket")
@@ -102,14 +102,14 @@ public class SimpleLotteryController
     /**
      * Note we pick a ticket to update, we could also perhaps add a method to choose both ticket and
      * number of additional extra lines but for now we will impose 6 new lines.
-     *
+     * <p>
      * Once the status of a ticket has been checked it should not be possible to amend, so in this case we will
      * just return the original ticket and its field: "statusChecked": true.
      *
      * @param id of ticket chosen as an integer (0..n-1)
      * @return ResponseEntity - Ticket with 10+6 new lines and 201 CREATED
-     *         OR
-     *         original 10 lines if ticket was checked and status of 200 OK.
+     * OR
+     * original 10 lines if ticket was checked and status of 200 OK.
      */
     @PutMapping("/ticket/{id}")
     @ResponseBody
@@ -124,13 +124,15 @@ public class SimpleLotteryController
         catch (final SimpleLotteryServiceException e)
         {
             SimpleLotteryController.logger.error("could not amend ticket: " + id);
-            throw new AmendTicketException (id);
+            throw new AmendTicketException(id);
         }
 
-        if (simpleLotteryServiceTicket.getLines().size()>10) {
+        if (simpleLotteryServiceTicket.getLines().size() > 10)
+        {
             return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.CREATED);
         }
-        else {
+        else
+        {
             return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.OK);
         }
     }
@@ -139,7 +141,7 @@ public class SimpleLotteryController
      * Checks the status of a ticket based on an integer id passed in
      * and sorts the lines of the ticket into outcomes from lowest to highest
      * and marks the ticket as read
-     *
+     * <p>
      * Note we could parameter check with a ? to perhaps sort in descending order also
      *
      * @param id
@@ -149,14 +151,15 @@ public class SimpleLotteryController
     @ResponseBody
     public ResponseEntity<?> status(@PathVariable final int id)
     {
-         SimpleLotteryTicket simpleLotteryServiceTicket = null;
-         try
-         {
-             simpleLotteryServiceTicket = this.simpleLotteryService.getTicketStatus(id);
-         }
-         catch (final SimpleLotteryServiceException sLSE) {
-
-         }
+        SimpleLotteryTicket simpleLotteryServiceTicket = null;
+        try
+        {
+            simpleLotteryServiceTicket = this.simpleLotteryService.getTicketStatus(id);
+        }
+        catch (final SimpleLotteryServiceException sLSE)
+        {
+            throw new CheckTicketException(id);
+        }
 
         return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.CREATED);
     }

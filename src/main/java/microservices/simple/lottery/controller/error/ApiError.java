@@ -66,21 +66,24 @@ class ApiError
     }
 }
 
-abstract class ApiSubError {
+abstract class ApiSubError
+{
 
 }
 
-    @Data
-    @EqualsAndHashCode(callSuper = false)
-    @AllArgsConstructor
-    class ApiValidationError extends ApiSubError {
-        private final String object;
-        private       String field;
-        private       Object rejectedValue;
-        private final String message;
+@Data
+@EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
+class ApiValidationError extends ApiSubError
+{
+    private final String object;
+    private final String message;
+    private       String field;
+    private       Object rejectedValue;
 
-        ApiValidationError(final String object, final String message) {
-            this.object = object;
-            this.message = message;
-        }
+    ApiValidationError(final String object, final String message)
+    {
+        this.object = object;
+        this.message = message;
+    }
 }

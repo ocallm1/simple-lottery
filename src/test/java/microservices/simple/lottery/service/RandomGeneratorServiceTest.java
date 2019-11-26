@@ -14,17 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RandomGeneratorServiceTest {
+public class RandomGeneratorServiceTest
+{
 
     @Autowired
     private RandomGeneratorService randomGeneratorService;
 
     @Test
-    public void generateRandomNumbersAreBetweenExpectedLimits() throws Exception {
+    public void generateRandomNumbersAreBetweenExpectedLimits() throws Exception
+    {
         // when a good sample of randomly generated factors is generated
-        final List<Integer> randomNumbers = IntStream.range(0, 3)
-                .map(i -> this.randomGeneratorService.generateRandomValue())
-                .boxed().collect(Collectors.toList());
+        final List<Integer> randomNumbers = IntStream.range(0, 3).map(i -> this.randomGeneratorService.generateRandomValue()).boxed()
+                .collect(Collectors.toList());
 
         assertThat(randomNumbers).size().isEqualTo(3);
     }
