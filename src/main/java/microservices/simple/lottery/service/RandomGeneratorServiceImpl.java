@@ -2,7 +2,7 @@ package microservices.simple.lottery.service;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 class RandomGeneratorServiceImpl implements RandomGeneratorService
@@ -13,6 +13,7 @@ class RandomGeneratorServiceImpl implements RandomGeneratorService
 
     public int generateRandomValue()
     {
-        return new Random().nextInt(RandomGeneratorServiceImpl.MAXIMUM_NUMBER);
+        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 3);
+        return boundedRandomValue;
     }
 }
