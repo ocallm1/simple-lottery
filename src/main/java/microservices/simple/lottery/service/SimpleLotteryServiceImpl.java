@@ -84,6 +84,7 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     public SimpleLotteryTicket getTicket(int ticketNumber) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = null;
+        List<ServiceError> serviceError = new ArrayList<>();
         try
         {
             simpleLotteryTicket = this.simpleLotteryTickets.get(ticketNumber);
@@ -103,30 +104,47 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         SimpleLotteryTicket simpleLotteryTicket = simpleLotteryTicket = this.getTicket(ticketNumber);
 
         // add new lines to ticket
-        try
-        {
-            for (int i = 0; i < additionalLines; i++)
-            {
-                final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
+//        try
+//        {
+        final String errorMsg = "Could not add line to ticket";
+        List<ServiceError> serviceError = new ArrayList<>();
+        if (simpleLotteryTicket!=null) {
 
-                if (simpleLotteryTicket.getStatusChecked().equals(Boolean.FALSE))
+            if (additionalLines>0)
+            {
+                for (int i = 0; i < additionalLines; i++)
                 {
-                    simpleLotteryTicket.getLines().add(simpleLotteryTicketLine);
-                }
-                else
-                {
-                    SimpleLotteryServiceImpl.logger.debug("Ticket locked for Status check!");
-                    return simpleLotteryTicket;
+                    final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
+
+                    if (simpleLotteryTicket.getStatusChecked().equals(Boolean.FALSE))
+                    {
+                        simpleLotteryTicket.getLines().add(simpleLotteryTicketLine);
+                    }
+                    else
+                    {
+                        SimpleLotteryServiceImpl.logger.debug("Ticket locked for Status check!");
+                        return simpleLotteryTicket;
+                    }
                 }
             }
+            else {
+                ServiceError error = new ServiceError(errorMsg + " Please add >0 additonal lines" );
+                SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+                serviceError.add(error);
+            }
         }
-        catch (final Exception ex)
-        {
-            final String errorMsg = "Could add line to ticket";
-
-            SimpleLotteryServiceImpl.logger.warn(errorMsg + "for {}" + ticketNumber);
-            throw new SimpleLotteryServiceException(errorMsg);
+        else {
+            ServiceError error = new ServiceError(errorMsg + "Ticket Number did not exist" );
+            SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+            serviceError.add(error);
         }
+//        catch (final Exception ex)
+//        {
+//            final String errorMsg = "Could add line to ticket";
+//
+//            SimpleLotteryServiceImpl.logger.warn(errorMsg + "for {}" + ticketNumber);
+//            throw new SimpleLotteryServiceException(errorMsg);
+//        }
 
         return simpleLotteryTicket;
     }
