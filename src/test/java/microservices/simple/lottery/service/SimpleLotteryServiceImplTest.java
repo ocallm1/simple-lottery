@@ -28,17 +28,17 @@ public class SimpleLotteryServiceImplTest
     {
         // With this call to initMocks we tell Mockito to process the annotations
         MockitoAnnotations.initMocks(this);
-        this.simpleLotteryService = new SimpleLotteryServiceImpl(this.randomGeneratorService);
+        simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorService);
     }
 
     @Test
     public void createRandomRowTest()
     {
         // given (our mocked Random Generator service will return first 2, then 1)
-        given(this.randomGeneratorService.generateRandomValue()).willReturn(2, 1);
+        given(randomGeneratorService.generateRandomValue()).willReturn(2, 1);
 
         // when
-        final SimpleLotteryTicketLine simpleLotteryTicketLine = this.simpleLotteryService.createRandomNumbersForLineOfThree();
+        SimpleLotteryTicketLine simpleLotteryTicketLine = simpleLotteryService.createRandomNumbersForLineOfThree();
     }
 
     ////////////////////////////////////
@@ -46,24 +46,24 @@ public class SimpleLotteryServiceImplTest
     @Test
     public void createTicketsTest()
     {
-        final RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
-        final SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
+        RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
+        SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
 
         // create a ticket with five lines
-        final SimpleLotteryTicket simpleLotteryTicket = simpleLotteryService.createTicket(5);
-        final List<SimpleLotteryTicketLine> simpleLotteryTicketLine = simpleLotteryTicket.getLines();
+        SimpleLotteryTicket simpleLotteryTicket = simpleLotteryService.createTicket(5);
+        List<SimpleLotteryTicketLine> simpleLotteryTicketLine = simpleLotteryTicket.getLines();
 
-        printTicketLines(simpleLotteryTicketLine, 4);
+        this.printTicketLines(simpleLotteryTicketLine, 4);
 
         Assert.assertTrue(simpleLotteryTicket.getLines().size() > 4);
         Assert.assertTrue(simpleLotteryTicketLine.get(4).getNumberThree() >= 0);
         Assert.assertTrue(simpleLotteryTicketLine.get(4).getNumberThree() <= 2);
 
         // create a second ticket with three lines
-        final SimpleLotteryTicket simpleLotteryTicketTwo = simpleLotteryService.createTicket(3);
-        final List<SimpleLotteryTicketLine> simpleLotteryTicketTwoLines = simpleLotteryTicketTwo.getLines();
+        SimpleLotteryTicket simpleLotteryTicketTwo = simpleLotteryService.createTicket(3);
+        List<SimpleLotteryTicketLine> simpleLotteryTicketTwoLines = simpleLotteryTicketTwo.getLines();
 
-        printTicketLines(simpleLotteryTicketTwoLines, 2);
+        this.printTicketLines(simpleLotteryTicketTwoLines, 2);
 
         Assert.assertTrue(simpleLotteryTicketTwo.getLines().size() > 2);
         Assert.assertTrue(simpleLotteryTicketTwoLines.get(2).getNumberThree() >= 0);
@@ -73,8 +73,8 @@ public class SimpleLotteryServiceImplTest
     @Test
     public void getTicketStatus()
     {
-        final RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
-        final SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
+        RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
+        SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
 
         // create a ticket with five lines
         simpleLotteryService.createTicket(10);
@@ -84,13 +84,13 @@ public class SimpleLotteryServiceImplTest
         {
             simpleLotteryTicketOne = simpleLotteryService.getTicketStatus(0);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status" + e);
+            SimpleLotteryServiceImplTest.logger.error("Proglem getting ticket status" + e);
         }
-        for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketOne.getLines())
+        for (SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketOne.getLines())
         {
-            SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketCheck {}" + simpleLotteryTicketCheck);
+            logger.info("simpleLotteryTicketCheck {}" + simpleLotteryTicketCheck);
         }
 
         // create another ticket
@@ -101,13 +101,13 @@ public class SimpleLotteryServiceImplTest
         {
             simpleLotteryTicketTwo = simpleLotteryService.getTicketStatus(1);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status" + e);
+            SimpleLotteryServiceImplTest.logger.error("Proglem getting ticket status" + e);
         }
-        for (final SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketTwo.getLines())
+        for (SimpleLotteryTicketLine simpleLotteryTicketCheck : simpleLotteryTicketTwo.getLines())
         {
-            SimpleLotteryServiceImplTest.logger.info("simpleLotteryTicketCheck {}" + simpleLotteryTicketCheck);
+            logger.info("simpleLotteryTicketCheck {}" + simpleLotteryTicketCheck);
         }
 
         Assert.assertNotNull(simpleLotteryTicketTwo);
@@ -118,8 +118,8 @@ public class SimpleLotteryServiceImplTest
     public void amendTicketLines()
     {
         // create ticket
-        final RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
-        final SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
+        RandomGeneratorServiceImpl randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
+        SimpleLotteryServiceImpl simpleLotteryService = new SimpleLotteryServiceImpl(randomGeneratorServiceImpl);
 
         // create a ticket with 3 lines
         simpleLotteryService.createTicket(3);
@@ -130,20 +130,20 @@ public class SimpleLotteryServiceImplTest
         {
             simpleLotteryTicket = simpleLotteryService.amendTicketLines(0, 3);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            logger.error("Proglem amending ticket" + e);
+            SimpleLotteryServiceImplTest.logger.error("Proglem amending ticket" + e);
         }
         Assert.assertEquals(simpleLotteryTicket.getLines().size(), 6);
 
         // check status of ticket
         try
         {
-            final SimpleLotteryTicket simpleLotteryTicketTwo = simpleLotteryService.getTicketStatus(0);
+            SimpleLotteryTicket simpleLotteryTicketTwo = simpleLotteryService.getTicketStatus(0);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            logger.error("Proglem getting ticket status" + e);
+            SimpleLotteryServiceImplTest.logger.error("Proglem getting ticket status" + e);
         }
 
         // now try amending the ticket it should not be possible.
@@ -152,27 +152,27 @@ public class SimpleLotteryServiceImplTest
         {
             simpleLotteryTicketSame = simpleLotteryService.amendTicketLines(0, 3);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            logger.error("Proglem amending ticket" + e);
+            SimpleLotteryServiceImplTest.logger.error("Proglem amending ticket" + e);
         }
         Assert.assertEquals(simpleLotteryTicketSame.getLines().size(), 6);
     }
 
-    private void printTicketLines(final List<SimpleLotteryTicketLine> simpleLotteryTicketLine, final int i)
+    private void printTicketLines(List<SimpleLotteryTicketLine> simpleLotteryTicketLine, int i)
     {
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(0).getNumberOne() {}" + simpleLotteryTicketLine.get(0).getNumberOne());
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(0).getNumberTwo() {}" + simpleLotteryTicketLine.get(0).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(0).getNumberThree() {}" + simpleLotteryTicketLine.get(0).getNumberThree());
 
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(4).getNumberOne() {}" + simpleLotteryTicketLine.get(i).getNumberOne());
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(4).getNumberTwo() {}" + simpleLotteryTicketLine.get(i).getNumberTwo());
-        SimpleLotteryServiceImplTest.logger
+        logger
                 .info("simpleLotteryTicketLine.get(4).getNumberThree() {}" + simpleLotteryTicketLine.get(i).getNumberThree());
     }
 

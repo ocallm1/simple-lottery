@@ -13,7 +13,7 @@ class RandomGeneratorServiceImpl implements RandomGeneratorService
 
     public int generateRandomValue()
     {
-        int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 3);
+        final int boundedRandomValue = ThreadLocalRandom.current().nextInt(0, 3);
         return boundedRandomValue;
     }
 }

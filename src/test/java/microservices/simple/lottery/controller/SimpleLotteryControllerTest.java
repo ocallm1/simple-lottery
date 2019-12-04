@@ -51,28 +51,28 @@ public class SimpleLotteryControllerTest
     public void getRandomLotteryTest() throws Exception
     {
         //given
-        given(this.simpleLotteryService.createRandomNumbersForLineOfThree()).
+        given(simpleLotteryService.createRandomNumbersForLineOfThree()).
                 willReturn(new SimpleLotteryTicketLine(1, 0, 2));
     }
 
     @Test
     public void postResultReturnCorrect() throws Exception
     {
-        final SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket();
-        this.genericParameterizedTest(simpleLotteryTicket);
+        SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket();
+        genericParameterizedTest(simpleLotteryTicket);
     }
 
-    void genericParameterizedTest(SimpleLotteryTicket simpleLotteryTicket) throws Exception
+    void genericParameterizedTest(final SimpleLotteryTicket simpleLotteryTicket) throws Exception
     {
-        given(this.simpleLotteryService.createTicket(1)).willReturn(simpleLotteryTicket);
+        given(simpleLotteryService.createTicket(1)).willReturn(simpleLotteryTicket);
 
-        final SimpleLotteryTicket simpleLotteryTicketAttempt = new SimpleLotteryTicket();
+        SimpleLotteryTicket simpleLotteryTicketAttempt = new SimpleLotteryTicket();
         simpleLotteryTicketAttempt.setLines(null);
         simpleLotteryTicketAttempt.setStatusChecked(true);
 
         // when
-        final MockHttpServletResponse response = this.mvc.perform(post("/lottery/ticket").contentType(APPLICATION_JSON_UTF8)
-                .content(this.jsonResult.write(simpleLotteryTicketAttempt).getJson())).andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(post("/lottery/ticket").contentType(APPLICATION_JSON_UTF8)
+                .content(jsonResult.write(simpleLotteryTicketAttempt).getJson())).andReturn().getResponse();
         //                .content(jsonResult.write(simpleLotteryTicket).getJson())
 
         // then
@@ -82,20 +82,20 @@ public class SimpleLotteryControllerTest
     @Test
     public void putResultReturnInCorrect() throws Exception
     {
-        final SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket();
+        SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket();
 
-        given(this.simpleLotteryService.amendTicketLines(1, 2)).willReturn(simpleLotteryTicket);
+        given(simpleLotteryService.amendTicketLines(1, 2)).willReturn(simpleLotteryTicket);
 
-        final SimpleLotteryTicket simpleLotteryTicketAttempt = new SimpleLotteryTicket();
+        SimpleLotteryTicket simpleLotteryTicketAttempt = new SimpleLotteryTicket();
         simpleLotteryTicketAttempt.setLines(null);
         simpleLotteryTicketAttempt.setStatusChecked(true);
 
         // Won't be found as no Ticket with Index 1 Created
-        final int id = 1;
-        final MockHttpServletRequestBuilder builder = put("/articles/" + id).contentType(APPLICATION_JSON_UTF8)
-                .content(this.jsonResult.write(simpleLotteryTicketAttempt).getJson());
+        int id = 1;
+        MockHttpServletRequestBuilder builder = put("/articles/" + id).contentType(APPLICATION_JSON_UTF8)
+                .content(jsonResult.write(simpleLotteryTicketAttempt).getJson());
 
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+        this.mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
 }

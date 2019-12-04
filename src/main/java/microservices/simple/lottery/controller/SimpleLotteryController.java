@@ -28,7 +28,7 @@ public class SimpleLotteryController
     private final        SimpleLotteryService simpleLotteryService;
 
     @Autowired
-    public SimpleLotteryController(final SimpleLotteryService simpleLotteryService)
+    public SimpleLotteryController(SimpleLotteryService simpleLotteryService)
     {
         this.simpleLotteryService = simpleLotteryService;
     }
@@ -50,7 +50,7 @@ public class SimpleLotteryController
     public ResponseEntity<?> createTicket()
     {
         // lets just always create a ticket with 10 lines
-        SimpleLotteryTicket simpleLotteryServiceTicket = this.simpleLotteryService.createTicket(10);
+        final SimpleLotteryTicket simpleLotteryServiceTicket = simpleLotteryService.createTicket(10);
 
         return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.CREATED);
     }
@@ -65,11 +65,11 @@ public class SimpleLotteryController
         List<SimpleLotteryTicket> simpleLotteryServiceTickets = null;
         try
         {
-            simpleLotteryServiceTickets = this.simpleLotteryService.getListOfTickets();
+            simpleLotteryServiceTickets = simpleLotteryService.getListOfTickets();
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            SimpleLotteryController.logger.error("could not retrieve ticket(s)");
+            logger.error("could not retrieve ticket(s)");
             throw new TicketNotFoundException();
         }
 
@@ -83,16 +83,16 @@ public class SimpleLotteryController
      */
     @GetMapping("/ticket/{id}")
     @ResponseBody
-    public ResponseEntity<?> getTicket(@PathVariable final int id)
+    public ResponseEntity<?> getTicket(@PathVariable int id)
     {
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
-            simpleLotteryServiceTicket = this.simpleLotteryService.getTicket(id);
+            simpleLotteryServiceTicket = simpleLotteryService.getTicket(id);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            SimpleLotteryController.logger.error("could not retrieve ticket");
+            logger.error("could not retrieve ticket");
             throw new TicketNotFoundException(id);
         }
 
@@ -113,17 +113,17 @@ public class SimpleLotteryController
      */
     @PutMapping("/ticket/{id}")
     @ResponseBody
-    public ResponseEntity<?> amendTicket(@PathVariable final int id)
+    public ResponseEntity<?> amendTicket(@PathVariable int id)
     {
         // lets just always update a chosen ticket with 6 lines
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
-            simpleLotteryServiceTicket = this.simpleLotteryService.amendTicketLines(id, 6);
+            simpleLotteryServiceTicket = simpleLotteryService.amendTicketLines(id, 6);
         }
-        catch (final SimpleLotteryServiceException e)
+        catch (SimpleLotteryServiceException e)
         {
-            SimpleLotteryController.logger.error("could not amend ticket: " + id);
+            logger.error("could not amend ticket: " + id);
             throw new AmendTicketException(id);
         }
 
@@ -149,14 +149,14 @@ public class SimpleLotteryController
      */
     @PutMapping("/status/{id}")
     @ResponseBody
-    public ResponseEntity<?> status(@PathVariable final int id)
+    public ResponseEntity<?> status(@PathVariable int id)
     {
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
-            simpleLotteryServiceTicket = this.simpleLotteryService.getTicketStatus(id);
+            simpleLotteryServiceTicket = simpleLotteryService.getTicketStatus(id);
         }
-        catch (final SimpleLotteryServiceException sLSE)
+        catch (SimpleLotteryServiceException sLSE)
         {
             throw new CheckTicketException(id);
         }

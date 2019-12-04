@@ -16,30 +16,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
 
     //other exception handlers
     @ExceptionHandler(AmendTicketException.class)
-    protected ResponseEntity<Object> handleAmendEntity(final AmendTicketException ex)
+    protected ResponseEntity<Object> handleAmendEntity(AmendTicketException ex)
     {
-        final ApiError apiError = new ApiError(NOT_FOUND);
+        ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
-        return this.buildResponseEntity(apiError);
+        return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler(TicketNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(final TicketNotFoundException ex)
+    protected ResponseEntity<Object> handleEntityNotFound(TicketNotFoundException ex)
     {
-        final ApiError apiError = new ApiError(NOT_FOUND);
+        ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
-        return this.buildResponseEntity(apiError);
+        return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler(CheckTicketException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(final CheckTicketException ex)
+    protected ResponseEntity<Object> handleEntityNotFound(CheckTicketException ex)
     {
-        final ApiError apiError = new ApiError(NOT_FOUND);
+        ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
-        return this.buildResponseEntity(apiError);
+        return buildResponseEntity(apiError);
     }
 
-    private ResponseEntity<Object> buildResponseEntity(ApiError apiError)
+    private ResponseEntity<Object> buildResponseEntity(final ApiError apiError)
     {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }

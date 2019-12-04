@@ -19,48 +19,48 @@ class ApiError
 
     private ApiError()
     {
-        final LocalDateTime timestamp = LocalDateTime.now();
+        LocalDateTime timestamp = LocalDateTime.now();
     }
 
-    ApiError(final HttpStatus status)
+    ApiError(HttpStatus status)
     {
         this();
         this.status = status;
     }
 
-    ApiError(final HttpStatus status, final Throwable ex)
+    ApiError(HttpStatus status, Throwable ex)
     {
         this();
         this.status = status;
-        message = "Unexpected error";
-        debugMessage = ex.getLocalizedMessage();
+        this.message = "Unexpected error";
+        this.debugMessage = ex.getLocalizedMessage();
     }
 
-    ApiError(final HttpStatus status, final String message, final Throwable ex)
+    ApiError(HttpStatus status, String message, Throwable ex)
     {
         this();
         this.status = status;
         this.message = message;
-        debugMessage = ex.getLocalizedMessage();
+        this.debugMessage = ex.getLocalizedMessage();
 
     }
 
     public String getMessage()
     {
-        return this.message;
+        return message;
     }
 
-    public void setMessage(String message)
+    public void setMessage(final String message)
     {
         this.message = message;
     }
 
     public HttpStatus getStatus()
     {
-        return this.status;
+        return status;
     }
 
-    public void setStatus(HttpStatus status)
+    public void setStatus(final HttpStatus status)
     {
         this.status = status;
     }
@@ -81,7 +81,7 @@ class ApiValidationError extends ApiSubError
     private       String field;
     private       Object rejectedValue;
 
-    ApiValidationError(final String object, final String message)
+    ApiValidationError(String object, String message)
     {
         this.object = object;
         this.message = message;

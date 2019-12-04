@@ -4,17 +4,17 @@ public class ServiceError
 {
     private String errorMsg;
 
-    public ServiceError(String errorMsg)
+    public ServiceError(final String errorMsg)
     {
         this.errorMsg = errorMsg;
     }
 
     public String getErrorMsg()
     {
-        return errorMsg;
+        return this.errorMsg;
     }
 
-    public void setErrorMsg(final String errorMsg)
+    public void setErrorMsg(String errorMsg)
     {
         this.errorMsg = errorMsg;
     }

@@ -3,7 +3,7 @@ package microservices.simple.lottery.controller.error;
 public class TicketNotFoundException extends RuntimeException
 {
 
-    public TicketNotFoundException(final Integer id)
+    public TicketNotFoundException(Integer id)
     {
         super("Ticket id not found : " + id);
     }

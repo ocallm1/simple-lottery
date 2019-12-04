@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +23,7 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     private final List<SimpleLotteryTicket> simpleLotteryTickets = new ArrayList<>();
 
     @Autowired
-    public SimpleLotteryServiceImpl(final RandomGeneratorService randomGeneratorService)
+    public SimpleLotteryServiceImpl(RandomGeneratorService randomGeneratorService)
     {
 
         this.randomGeneratorService = randomGeneratorService;
@@ -30,47 +31,47 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
 
     private List<SimpleLotteryTicket> getSimpleLotteryTickets()
     {
-        return this.simpleLotteryTickets;
+        return simpleLotteryTickets;
     }
 
     public SimpleLotteryTicketLine createRandomNumbersForLineOfThree()
     {
-        final int numberOne = this.randomGeneratorService.generateRandomValue();
-        final int numberTwo = this.randomGeneratorService.generateRandomValue();
-        final int numberThree = this.randomGeneratorService.generateRandomValue();
+        int numberOne = randomGeneratorService.generateRandomValue();
+        int numberTwo = randomGeneratorService.generateRandomValue();
+        int numberThree = randomGeneratorService.generateRandomValue();
 
         return new SimpleLotteryTicketLine(numberOne, numberTwo, numberThree);
     }
 
-    public SimpleLotteryTicket createTicket(final int n)
+    public SimpleLotteryTicket createTicket(int n)
     {
-        final List<SimpleLotteryTicketLine> simpleLotteryTicketLines = new ArrayList<>();
+        List<SimpleLotteryTicketLine> simpleLotteryTicketLines = new ArrayList<>();
         SimpleLotteryTicket simpleLotteryTicket = null;
         for (int i = 1; i <= n; i++)
         {
             simpleLotteryTicket = new SimpleLotteryTicket();
-            final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
+            SimpleLotteryTicketLine simpleLotteryTicketLine = createRandomNumbersForLineOfThree();
 
             simpleLotteryTicketLines.add(simpleLotteryTicketLine);
         }
 
         simpleLotteryTicket.setLines(simpleLotteryTicketLines);
 
-        this.simpleLotteryTickets.add(simpleLotteryTicket);
+        simpleLotteryTickets.add(simpleLotteryTicket);
 
         return simpleLotteryTicket;
     }
 
     public List<SimpleLotteryTicket> getListOfTickets() throws SimpleLotteryServiceException
     {
-        if (null == getSimpleLotteryTickets() || !(getSimpleLotteryTickets().size() > 0))
+        if (null == this.getSimpleLotteryTickets() || !(this.getSimpleLotteryTickets().size() > 0))
         {
-            final String errorMsg = "Could not retrieve ticket(s)";
-            SimpleLotteryServiceImpl.logger.warn(errorMsg);
+            String errorMsg = "Could not retrieve ticket(s)";
+            logger.warn(errorMsg);
 
-            ServiceError error = new ServiceError(errorMsg);
-            SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
-            List<ServiceError> serviceError = new ArrayList<>();
+            final ServiceError error = new ServiceError(errorMsg);
+            final SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+            final List<ServiceError> serviceError = new ArrayList<>();
             serviceError.add(error);
 
             simpleLotterTicket.setErrors(serviceError);
@@ -78,43 +79,47 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
             throw new SimpleLotteryServiceException(errorMsg);
         }
 
-        return getSimpleLotteryTickets();
+        return this.getSimpleLotteryTickets();
     }
 
-    public SimpleLotteryTicket getTicket(int ticketNumber) throws SimpleLotteryServiceException
+    public SimpleLotteryTicket getTicket(final int ticketNumber) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = null;
-        List<ServiceError> serviceError = new ArrayList<>();
+        final List<ServiceError> serviceError = new ArrayList<>();
         try
         {
-            simpleLotteryTicket = this.simpleLotteryTickets.get(ticketNumber);
+            simpleLotteryTicket = simpleLotteryTickets.get(ticketNumber);
         }
-        catch (final Exception ex)
+        catch (Exception ex)
         {
-            final String errorMsg = "Could not retrieve ticket";
+            String errorMsg = "Could not retrieve ticket";
 
-            SimpleLotteryServiceImpl.logger.warn(errorMsg + " for ticket: " + ticketNumber);
+            logger.warn(errorMsg + " for ticket: " + ticketNumber);
             throw new SimpleLotteryServiceException(errorMsg);
         }
         return simpleLotteryTicket;
     }
 
-    public SimpleLotteryTicket amendTicketLines(int ticketNumber, int additionalLines) throws SimpleLotteryServiceException
+    public SimpleLotteryTicket amendTicketLines(final int ticketNumber, final int additionalLines) throws SimpleLotteryServiceException
     {
-        SimpleLotteryTicket simpleLotteryTicket = simpleLotteryTicket = this.getTicket(ticketNumber);
+        SimpleLotteryTicket simpleLotteryTicket = simpleLotteryTicket = getTicket(ticketNumber);
 
         // add new lines to ticket
 //        try
 //        {
-        final String errorMsg = "Could not add line to ticket";
-        List<ServiceError> serviceError = new ArrayList<>();
+        final int[] A = new int[0];
+
+        Arrays.sort(A);
+
+        String errorMsg = "Could not add line to ticket";
+        final List<ServiceError> serviceError = new ArrayList<>();
         if (simpleLotteryTicket!=null) {
 
             if (additionalLines>0)
             {
                 for (int i = 0; i < additionalLines; i++)
                 {
-                    final SimpleLotteryTicketLine simpleLotteryTicketLine = this.createRandomNumbersForLineOfThree();
+                    SimpleLotteryTicketLine simpleLotteryTicketLine = createRandomNumbersForLineOfThree();
 
                     if (simpleLotteryTicket.getStatusChecked().equals(Boolean.FALSE))
                     {
@@ -122,20 +127,20 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
                     }
                     else
                     {
-                        SimpleLotteryServiceImpl.logger.debug("Ticket locked for Status check!");
+                        logger.debug("Ticket locked for Status check!");
                         return simpleLotteryTicket;
                     }
                 }
             }
             else {
-                ServiceError error = new ServiceError(errorMsg + " Please add >0 additonal lines" );
-                SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+                final ServiceError error = new ServiceError(errorMsg + " Please add >0 additonal lines" );
+                final SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
                 serviceError.add(error);
             }
         }
         else {
-            ServiceError error = new ServiceError(errorMsg + "Ticket Number did not exist" );
-            SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
+            final ServiceError error = new ServiceError(errorMsg + "Ticket Number did not exist" );
+            final SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
             serviceError.add(error);
         }
 //        catch (final Exception ex)
@@ -149,16 +154,16 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
         return simpleLotteryTicket;
     }
 
-    public SimpleLotteryTicket getTicketStatus(int ticketNumber) throws SimpleLotteryServiceException
+    public SimpleLotteryTicket getTicketStatus(final int ticketNumber) throws SimpleLotteryServiceException
     {
         // mark ticket as status checked
-        final SimpleLotteryTicket simpleLotteryTicket = this.getListOfTickets().get(ticketNumber);
+        SimpleLotteryTicket simpleLotteryTicket = getListOfTickets().get(ticketNumber);
 
         // sort lines into outcomes
-        final List<SimpleLotteryTicketLine> simpleLotteryTicketLines = simpleLotteryTicket.getLines();
-        for (final SimpleLotteryTicketLine simpleLotteryTicketLine : simpleLotteryTicketLines)
+        List<SimpleLotteryTicketLine> simpleLotteryTicketLines = simpleLotteryTicket.getLines();
+        for (SimpleLotteryTicketLine simpleLotteryTicketLine : simpleLotteryTicketLines)
         {
-            final int lineValue = this.checkLineValues(simpleLotteryTicketLine);
+            int lineValue = checkLineValues(simpleLotteryTicketLine);
             // set the tickets position
             simpleLotteryTicketLine.setOutcome(lineValue);
         }
@@ -176,13 +181,13 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
      * @param simpleLotteryTicketLine
      * @return
      */
-    private int checkLineValues(SimpleLotteryTicketLine simpleLotteryTicketLine)
+    private int checkLineValues(final SimpleLotteryTicketLine simpleLotteryTicketLine)
     {
-        final int num1 = simpleLotteryTicketLine.getNumberOne();
-        final int num2 = simpleLotteryTicketLine.getNumberTwo();
-        final int num3 = simpleLotteryTicketLine.getNumberThree();
+        int num1 = simpleLotteryTicketLine.getNumberOne();
+        int num2 = simpleLotteryTicketLine.getNumberTwo();
+        int num3 = simpleLotteryTicketLine.getNumberThree();
 
-        final int sumLineValues = num1 + num2 + num3;
+        int sumLineValues = num1 + num2 + num3;
 
         if (sumLineValues == 2)
         {

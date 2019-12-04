@@ -25,7 +25,7 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     @JsonProperty
     private int result;
 
-    public SimpleLotteryTicketLine(final int numberOne, final int numberTwo, final int numberThree)
+    public SimpleLotteryTicketLine(int numberOne, int numberTwo, int numberThree)
     {
         this.numberOne = numberOne;
         this.numberTwo = numberTwo;
@@ -35,30 +35,30 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
 
     public int getNumberOne()
     {
-        return this.numberOne;
+        return numberOne;
     }
 
     public int getNumberTwo()
     {
-        return this.numberTwo;
+        return numberTwo;
     }
 
     public int getNumberThree()
     {
-        return this.numberThree;
+        return numberThree;
     }
 
     public int getResult()
     {
-        return this.result;
+        return result;
     }
 
     public int getOutcome()
     {
-        return this.outcome;
+        return outcome;
     }
 
-    public void setOutcome(int outcome)
+    public void setOutcome(final int outcome)
     {
         this.outcome = outcome;
     }
@@ -66,16 +66,16 @@ public class SimpleLotteryTicketLine implements Comparable<SimpleLotteryTicketLi
     @Override
     public String toString()
     {
-        return "SimpleLotteryTicketLine{" + "numberOne=" + this.numberOne + ", numberTwo=" + this.numberTwo + ", result(A*B)=" + this.result
+        return "SimpleLotteryTicketLine{" + "numberOne=" + numberOne + ", numberTwo=" + numberTwo + ", result(A*B)=" + result
                 + '}';
     }
 
     @Override
-    public int compareTo(SimpleLotteryTicketLine compareTicketLine)
+    public int compareTo(final SimpleLotteryTicketLine compareTicketLine)
     {
-        final int comparePosition = compareTicketLine.getOutcome();
+        int comparePosition = compareTicketLine.getOutcome();
 
         //ascending order
-        return outcome - comparePosition;
+        return this.outcome - comparePosition;
     }
 }
