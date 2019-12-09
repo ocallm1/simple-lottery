@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,13 +45,26 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     public SimpleLotteryTicket createTicket(int n)
     {
         List<SimpleLotteryTicketLine> simpleLotteryTicketLines = new ArrayList<>();
-        SimpleLotteryTicket simpleLotteryTicket = null;
-        for (int i = 1; i <= n; i++)
-        {
-            simpleLotteryTicket = new SimpleLotteryTicket();
-            SimpleLotteryTicketLine simpleLotteryTicketLine = createRandomNumbersForLineOfThree();
+        SimpleLotteryTicket simpleLotteryTicket = new SimpleLotteryTicket();
+        final List<ServiceError> serviceError = new ArrayList<>();
 
-            simpleLotteryTicketLines.add(simpleLotteryTicketLine);
+        if (n > 0)
+        {
+            for (int i = 1; i <= n; i++)
+            {
+                SimpleLotteryTicketLine simpleLotteryTicketLine = createRandomNumbersForLineOfThree();
+
+                simpleLotteryTicketLines.add(simpleLotteryTicketLine);
+            }
+        }
+        else {
+            String errorMsg = "Could not create ticket";
+            logger.warn(errorMsg);
+
+            final ServiceError error = new ServiceError(errorMsg);
+            serviceError.add(error);
+
+            simpleLotteryTicket.setErrors(serviceError);
         }
 
         simpleLotteryTicket.setLines(simpleLotteryTicketLines);
@@ -103,14 +115,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
     public SimpleLotteryTicket amendTicketLines(final int ticketNumber, final int additionalLines) throws SimpleLotteryServiceException
     {
         SimpleLotteryTicket simpleLotteryTicket = simpleLotteryTicket = getTicket(ticketNumber);
-
-        // add new lines to ticket
-//        try
-//        {
-        final int[] A = new int[0];
-
-        Arrays.sort(A);
-
         String errorMsg = "Could not add line to ticket";
         final List<ServiceError> serviceError = new ArrayList<>();
         if (simpleLotteryTicket!=null) {
@@ -143,13 +147,6 @@ class SimpleLotteryServiceImpl implements SimpleLotteryService
             final SimpleLotteryTicket simpleLotterTicket = new SimpleLotteryTicket();
             serviceError.add(error);
         }
-//        catch (final Exception ex)
-//        {
-//            final String errorMsg = "Could add line to ticket";
-//
-//            SimpleLotteryServiceImpl.logger.warn(errorMsg + "for {}" + ticketNumber);
-//            throw new SimpleLotteryServiceException(errorMsg);
-//        }
 
         return simpleLotteryTicket;
     }
