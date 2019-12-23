@@ -17,6 +17,13 @@ mvn clean test
 to run there is wrapping command on maven:
 ./mvnw spring-boot:run
 
+To package with docker use:
+docker build -t springio/gs-spring-boot-docker .
+
+To run with Docker use:
+docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+
+#########Business Usage============================================================================
 To Post a new ticket just use a tool like Postman or maybe curl and send a request without a body to
 e.g. localhost:8080//lottery/ticket
 
