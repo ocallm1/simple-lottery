@@ -5,6 +5,9 @@ import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 
 import java.util.List;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 public interface SimpleLotteryService
 {
 

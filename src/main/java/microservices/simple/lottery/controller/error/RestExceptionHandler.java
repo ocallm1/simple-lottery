@@ -9,11 +9,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
 {
-
     //other exception handlers
     @ExceptionHandler(AmendTicketException.class)
     protected ResponseEntity<Object> handleAmendEntity(AmendTicketException ex)

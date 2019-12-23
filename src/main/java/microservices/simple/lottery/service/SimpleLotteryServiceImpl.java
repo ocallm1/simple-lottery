@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 @Service
 class SimpleLotteryServiceImpl implements SimpleLotteryService
 {

@@ -6,6 +6,9 @@ import microservices.simple.lottery.service.Error.ServiceError;
 
 import java.util.List;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SimpleLotteryTicket
 {

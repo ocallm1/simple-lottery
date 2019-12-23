@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 class ApiError
 {
     private HttpStatus        status;

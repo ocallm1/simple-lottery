@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Created by ocallm1 on 18/12/19.
+ */
 @RestController
 @RequestMapping("/lottery")
 public class SimpleLotteryController
