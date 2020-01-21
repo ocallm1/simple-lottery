@@ -4,17 +4,19 @@ import microservices.simple.lottery.controller.error.AmendTicketException;
 import microservices.simple.lottery.controller.error.CheckTicketException;
 import microservices.simple.lottery.controller.error.TicketNotFoundException;
 import microservices.simple.lottery.domain.SimpleLotteryTicket;
+import microservices.simple.lottery.domain.SimpleLotteryTicketLine;
 import microservices.simple.lottery.service.SimpleLotteryService;
 import microservices.simple.lottery.service.SimpleLotteryServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,7 @@ import java.util.List;
 /**
  * Created by ocallm1 on 18/12/19.
  */
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/lottery")
 public class SimpleLotteryController
@@ -61,14 +64,14 @@ public class SimpleLotteryController
     /**
      * @return ResponseEntity - A list of the created tickets with their rows and a status of 200 if the request succeeds.
      */
-    @GetMapping("/ticket")
-    @ResponseBody
+    @RequestMapping(value = "/ticket", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getTickets()
     {
         List<SimpleLotteryTicket> simpleLotteryServiceTickets = null;
         try
         {
             simpleLotteryServiceTickets = simpleLotteryService.getListOfTickets();
+            logger.info("Getting all tickets");
         }
         catch (SimpleLotteryServiceException e)
         {
@@ -84,14 +87,15 @@ public class SimpleLotteryController
      *
      * @return ResponseEntity - A single ticket with its rows and a status of 200 if the request succeeds.
      */
-    @GetMapping("/ticket/{id}")
-    @ResponseBody
+   // @GetMapping("/ticket/{id}")
+    @RequestMapping(value = "/ticket/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getTicket(@PathVariable int id)
     {
         SimpleLotteryTicket simpleLotteryServiceTicket = null;
         try
         {
             simpleLotteryServiceTicket = simpleLotteryService.getTicket(id);
+            logger.info("Getting a single ticket for id: "+id );
         }
         catch (SimpleLotteryServiceException e)
         {
@@ -100,6 +104,30 @@ public class SimpleLotteryController
         }
 
         return new ResponseEntity<SimpleLotteryTicket>(simpleLotteryServiceTicket, HttpStatus.OK);
+    }
+
+    /**
+     * @return ResponseEntity - A list of lines from selected ticket
+     */
+    @RequestMapping(value = "/ticket/{id}/lines", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getTicketLines(@PathVariable int id)
+    {
+        List<SimpleLotteryTicketLine> simpleLotteryServiceTicketLines = null;
+
+        SimpleLotteryTicket simpleLotteryServiceTicket = null;
+        try
+        {
+            simpleLotteryServiceTicket = simpleLotteryService.getTicket(id);
+
+            logger.info("Getting ticket lines for ticket id: "+id );
+        }
+        catch (SimpleLotteryServiceException e)
+        {
+            logger.error("could not retrieve ticket");
+            throw new TicketNotFoundException(id);
+        }
+
+        return new ResponseEntity<List<SimpleLotteryTicketLine>>(simpleLotteryServiceTicket.getLines(), HttpStatus.OK);
     }
 
     /**
