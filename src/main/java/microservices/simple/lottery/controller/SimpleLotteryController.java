@@ -9,6 +9,7 @@ import microservices.simple.lottery.service.SimpleLotteryService;
 import microservices.simple.lottery.service.SimpleLotteryServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by ocallm1 on 18/12/19.
  */
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"${settings.cors_origin}"})
 @RestController
 @RequestMapping("/lottery")
 public class SimpleLotteryController
@@ -109,7 +110,7 @@ public class SimpleLotteryController
     /**
      * @return ResponseEntity - A list of lines from selected ticket
      */
-    @RequestMapping(value = "/ticket/{id}/lines", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/ticket/{id}/lines", method = {RequestMethod.GET, RequestMethod.OPTIONS}, produces = "application/json")
     public ResponseEntity<?> getTicketLines(@PathVariable int id)
     {
         List<SimpleLotteryTicketLine> simpleLotteryServiceTicketLines = null;
