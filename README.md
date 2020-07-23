@@ -25,7 +25,7 @@ docker run -p 8080:8080 -t springio/gs-spring-boot-docker
 
 #########Business Usage============================================================================
 To Post a new ticket just use a tool like Postman or maybe curl and send a request without a body to
-e.g. localhost:8080//lottery/ticket
+e.g. curl --request POST http://127.0.0.1:8090/lottery/ticket
 
 Sample output in JSON format would be the following for a Positive result with HTTP status 201 for Created:
 {
@@ -105,7 +105,7 @@ Sample output in JSON format would be the following for a Positive result with H
 }
 
 The following is a sample of checking status:
-localhost:8080//lottery/status/1
+localhost:8080/lottery/status/1
 {
     "lines": [
         {
